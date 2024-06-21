@@ -24,6 +24,18 @@ const Register: React.FC = () => {
       "http://localhost:5000/api/users/register",
       formData
     );
+    const jsonResponse = await res.data;
+
+    // Check for specific message in JSON response
+    if (jsonResponse.message === "User already exists") {
+      // console.error("Error: Duplicate email");
+      // Handle the duplicate email case here
+      alert("This email is already registered. Please use a different email.");
+    } else {
+      // Handle other responses here
+      console.log("everything ok");
+    }
+
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("id", res.data.id);
 

@@ -8,9 +8,7 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        {localStorage.getItem("id") && (
-          <Route path="/register" element={<Register />} />
-        )}
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );

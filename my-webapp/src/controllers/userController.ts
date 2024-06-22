@@ -9,9 +9,6 @@ const { ObjectId } = mongoose.Types;
 
 const secret = "mySecret"; // Use environment variable in production
 
-// export const registerUser = async (req: Request, res: Response) => {
-//   res.json({ message: "Hello from the register user" });
-// };
 export const registerUser = async (
   req: Request,
   res: Response
@@ -19,7 +16,7 @@ export const registerUser = async (
   const { firstName, lastName, email, password } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
-    return res.status(400).json({ message: "Please enter all fields" });
+    return res.json({ message: "Please enter all fields" });
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -34,7 +31,6 @@ export const registerUser = async (
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.json({ message: "User already exists" });
-    // return res.json({ message: "User already exists" });
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
@@ -47,17 +43,11 @@ export const registerUser = async (
   await newUser.save();
 
   const token = jwt.sign({ id: newUser._id }, secret, { expiresIn: "1h" });
-  return (
-    res
-      .status(201)
-      // .json({ token, user: { id: newUser._id, firstName, lastName, email } });
-      .json({ token, id: newUser._id })
-  );
-};
+  return res
+    .status(201)
 
-// export const getUser = async (req, res) => {
-//   res.json({ message: "Hello from the getUser" });
-// };
+    .json({ token, id: newUser._id });
+};
 
 export const getUser = async (req: Request, res: Response) => {
   // res.json({ message: "Hello from the getUser" });

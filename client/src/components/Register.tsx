@@ -27,13 +27,22 @@ const Register: React.FC = () => {
     const jsonResponse = await res.data;
 
     // Check for specific message in JSON response
+    if (jsonResponse.message === "Please enter all fields") {
+      alert("Please enter all fields");
+    }
+
+    if (jsonResponse.message === "Invalid email format") {
+      alert("Invalid email format");
+    }
+
+    if (
+      jsonResponse.message === "Password must be at least 6 characters long"
+    ) {
+      alert("Password must be at least 6 characters long");
+    }
+
     if (jsonResponse.message === "User already exists") {
-      // console.error("Error: Duplicate email");
-      // Handle the duplicate email case here
-      alert("This email is already registered. Please use a different email.");
-    } else {
-      // Handle other responses here
-      console.log("everything ok");
+      alert("User already exists");
     }
 
     localStorage.setItem("token", res.data.token);
